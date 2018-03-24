@@ -4,7 +4,7 @@
  * but it'll probably get stopped because
  * the website severely restricts (sometimes < 1 request/min) repeated requests from the same IP address.
  */
-(function scrapeAgencySpendingData() {
+const scrapeAgencySpendingData = function(firstYearIndex = 1, lastYearIndex = 124) {
     
     Function.prototype.applyReturning = function() {
         return (arg) => {
@@ -102,12 +102,10 @@
         timeoutIDs.forEach(clearTimeout);
     };
     const div = document.body.appendChild(newElement("div"));
-    const firstYearIndex = 1;
-    const lastYearIndex = 124;
     Promise.all(new Array(lastYearIndex - firstYearIndex + 1)
         .fill(null)
         .map((e, i) => i)
-        .map(i => sleep(() => interval, i + 1)
+        .map(i => sleep(() => interval, i)
             .then(() => lastYearIndex - i)
             .then(yearIndex => "l/" + yearIndex)
             .then(url => window.location.href + url)
@@ -141,7 +139,7 @@
                 window.data = window.data || {};
                 data.agencySpending = data.agencySpending || [];
                 data.agencySpending.push(...$);
-                       `.replace("$", json))
+                       `.replace("$", json).trim())
         .then(js => {
             const download = newElement("a");
             download.download = "data.agencySpending.js";
@@ -152,4 +150,4 @@
             download.remove();
         });
     
-})();
+};
