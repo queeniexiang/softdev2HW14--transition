@@ -1,22 +1,19 @@
-<!DOCTYPE html>
-<!--
-     D3 demo: 
-     transitions
-   -->
-<!--
-   -->
-<!--
-     Clyde "Thluffy" Sinclair
-     SoftDev2 pd0
-     2099-12-31    
-   -->
-
 <html>
+  <center>
   <head>
 	  <meta charset="UTF-8"/>
     <title>Demo: D3 Transitions</title>
     <style>
-      .chart div {
+      .chart_1962 div {
+        font: 10px sans-serif;
+        background-color: steelblue;
+        text-align: right;
+        padding: 3px;
+        margin: 1px;
+        color: white;
+      }
+
+      .chart_2023 div {
         font: 10px sans-serif;
         background-color: steelblue;
         text-align: right;
@@ -26,24 +23,23 @@
       }
     </style>
 
+    <h1> Federal Spending By Agency </h1>
     <script src="http://d3js.org/d3.v3.min.js"
             charset="utf-8"></script>
-    <center> 
-    <h1> <b> <u>  Federal Spending By Agency </u> </b> </h1> 
   </head>
   
   <body>
-    <b><u> 2016 </u></b>
-    <div class="2016">
+    <b> <u> 1962 Federal Spending </u> </b>
+    <div class="chart_1962">
     </div>
 
-    <br><br>
-
-    <b><u> 1980 </u></b>
-    <div class="1980">
+    <br><br><br><br>
+    
+    <b> <u> 2023 Estimate Federal Spending </u> </b>
+    <div class="chart_2023">
     </div>
+    
   </body>
-
-  <script src="homepage.js"></script>
   </center>
+  <script src="homepage.js"></script>
 </html>
