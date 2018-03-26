@@ -88,7 +88,7 @@ Node.prototype.appendBefore = function(node) {
 };
 
 Node.prototype.appendAfter = function(node) {
-    this.nextElement.appendBefore(node);
+    this.nextSibling.appendBefore(node);
 };
 
 const Class = Object.freeze({
@@ -162,18 +162,11 @@ const CSSSelector = Class.new((function() {
         document.head.appendChild(document.createElement("style"));
         const styleSheets = document.styleSheets;
         const styleSheet = styleSheets[styleSheets.length - 1];
-        let media = styleSheet.media;
-        const mediaType = typeof media;
-        const usingCssRules = mediaType === "object";
-        if (usingCssRules) {
-            media = media.mediaText;
+        const mediaType = typeof styleSheet.media;
+        if (mediaType === "object") {
+            adaptCssRulesToRules(styleSheet);
         }
-        if (media === "" || media.includes("screen")) {
-            if (usingCssRules) {
-                adaptCssRulesToRules(styleSheet);
-            }
-            return styleSheet;
-        }
+        return styleSheet;
     };
     
     const styleSheet = getStyleSheet();
@@ -264,7 +257,7 @@ const Converter = Class.new((fieldConverters = {}, defaultConverter = Number, de
         for (const field in o) {
             if (o.hasOwnProperty(field)) {
                 // convert using fieldConverters (default Number) and replace any NaNs with 0s
-                o[field] = (fieldConverters[field] || defaultConverter)(o[field]) || 0;
+                o[field] = (fieldConverters[field] || defaultConverter)(o[field]) || defaultValue;
             }
         }
         return o;
@@ -521,16 +514,14 @@ const graph = TransitioningGraph.new({
         transpose: true,
         converter: Converter.new({Year: s => s}),
         dataSourceUrl: "https://www.whitehouse.gov/wp-content/uploads/2018/02/hist04z1-fy2019.xlsx",
-        interval: (function() {
-            return () => {
-                let interval;
-                const intervalInput = window.intervalInput;
-                if (intervalInput && intervalInput.value) {
-                    interval = parseFloat(intervalInput.value);
-                }
-                return interval || 0.3;
-            };
-        })(),
+        interval: () => {
+            let interval;
+            const intervalInput = window.intervalInput; // $("#intervalInput")
+            if (intervalInput && intervalInput.value) {
+                interval = parseFloat(intervalInput.value);
+            }
+            return interval || 0.3;
+        },
         dataPreProcessor(data) {
             const fields = ["(On-budget)", "(Off-budget)", "Total outlays"];
             const deleteFields = Function.compose(...fields.map(Object.deleting));
