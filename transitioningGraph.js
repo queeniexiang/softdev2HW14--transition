@@ -1,3 +1,10 @@
+/*
+Khyber Sen and Queenie Xiang
+SoftDev2 pd07
+K14 -- You Are Smarter Than the President*
+2017-03-26
+*/
+
 Object.getting = function(property) {
     return o => o[property];
 };
