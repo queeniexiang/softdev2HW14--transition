@@ -538,7 +538,7 @@ const graph = TransitioningGraph.new({
     .then(graph => {
         const div = d3.select(document.body).append("div");
         div.append("label")
-            .text("Time Interval: ");
+            .text("Time Interval (sec): ");
         div.append("input")
             .attrs({
                 id: "intervalInput",
